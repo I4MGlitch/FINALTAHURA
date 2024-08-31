@@ -16,7 +16,7 @@ export class BeritaPageComponent {
   currentPage = 1;
   itemsPerPage = 2; // Adjusted to 2 for each section
   public loading: boolean = true;
-  totalItems: number = 16;
+  totalItems: number = 14;
 
   constructor(
     private beritaService: BeritaService,
