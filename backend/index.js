@@ -209,7 +209,7 @@ app.get('/api/getPartialBerita', async (req, res) => {
       short_description: 1,
       date: 1,   
       photos: { $slice: 1 }
-    }).limit(5);
+    }).limit(4);
 
     res.json(beritaData);
   } catch (error) {
