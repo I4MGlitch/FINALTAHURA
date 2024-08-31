@@ -7,8 +7,8 @@ import { catchError, Observable } from 'rxjs';
 })
 export class FloraService {
 
-  //private baseUrl = 'https://tahura.vercel.app';
-  private baseUrl = 'http://localhost:4242';
+  private baseUrl = 'https://tahura.vercel.app';
+  //private baseUrl = 'http://localhost:4242';
 
   constructor(private http: HttpClient) {}
 
