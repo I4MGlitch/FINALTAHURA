@@ -10,9 +10,9 @@ declare var Swiper: any;
   styleUrls: ['./gallery-page.component.css']
 })
 export class GalleryPageComponent {
-  public floras: any[] = [];
-  public faunas: any[] = [];
-  public beritas: any[] = [];
+  public floraspartial: any[] = [];
+  public faunaspartial: any[] = [];
+  public beritaspartial: any[] = [];
   public loading: boolean = true;
 
   constructor(
@@ -24,9 +24,9 @@ export class GalleryPageComponent {
 
   ngOnInit(): void {
     this.ngZone.runOutsideAngular(() => {
-      this.getAllFlora();
-      this.getAllFauna();
-      this.getAllBerita();
+      this.getPartialFlora();
+      this.getPartialFauna();
+      this.getPartialBerita();
     });
   }
 
@@ -162,11 +162,11 @@ export class GalleryPageComponent {
     });
   }
 
-  getAllFlora() {
-    this.flora.getAllFlora().subscribe(
+  getPartialFlora() {
+    this.flora.getPartialFlora().subscribe(
       (floras: any[]) => {
         this.ngZone.run(() => {
-          this.floras = floras;
+          this.floraspartial = floras;
         });
       },
       error => {
@@ -175,24 +175,24 @@ export class GalleryPageComponent {
     );
   }
 
-  getAllFauna() {
-    this.fauna.getAllFauna().subscribe(
+  getPartialFauna() {
+    this.fauna.getPartialFauna().subscribe(
       (faunas: any[]) => {
         this.ngZone.run(() => {
-          this.faunas = faunas;
+          this.faunaspartial = faunas;
         });
       },
       error => {
         console.error('Error fetching Faunas:', error);
       }
     );
-  }
+  }  
 
-  getAllBerita() {
-    this.berita.getAllBerita().subscribe(
+  getPartialBerita() {
+    this.berita.getPartialBerita().subscribe(
       (beritas: any[]) => {
         this.ngZone.run(() => {
-          this.beritas = beritas;
+          this.beritaspartial = beritas;
         });
       },
       error => {

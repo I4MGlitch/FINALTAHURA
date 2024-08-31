@@ -10,11 +10,8 @@ declare var Swiper: any;
   styleUrls: ['./landing-page.component.css']
 })
 export class LandingPageComponent implements AfterViewInit {
-  public floras: any[] = [];
   public floraspartial: any[] = [];
-  public faunas: any[] = [];
   public faunaspartial: any[] = [];
-  public beritas: any[] = [];
   public beritaspartial: any[] = [];
 
   constructor(
@@ -26,11 +23,8 @@ export class LandingPageComponent implements AfterViewInit {
 
   ngOnInit(): void {
     this.ngZone.runOutsideAngular(() => {
-      // this.getAllFlora();
       this.getPartialFlora();
-      // this.getAllFauna();
       this.getPartialFauna();
-      //this.getAllBerita();
       this.getPartialBerita();
     });
   }
@@ -166,19 +160,6 @@ export class LandingPageComponent implements AfterViewInit {
     });
   }
 
-  getAllFlora() {
-    this.flora.getAllFlora().subscribe(
-      (floras: any[]) => {
-        this.ngZone.run(() => {
-          this.floras = floras;
-        });
-      },
-      error => {
-        console.error('Error fetching Floras:', error);
-      }
-    );
-  }
-
   getPartialFlora() {
     this.flora.getPartialFlora().subscribe(
       (floras: any[]) => {
@@ -188,19 +169,6 @@ export class LandingPageComponent implements AfterViewInit {
       },
       error => {
         console.error('Error fetching Floras:', error);
-      }
-    );
-  }
-
-  getAllFauna() {
-    this.fauna.getAllFauna().subscribe(
-      (faunas: any[]) => {
-        this.ngZone.run(() => {
-          this.faunas = faunas;
-        });
-      },
-      error => {
-        console.error('Error fetching Faunas:', error);
       }
     );
   }
@@ -217,19 +185,6 @@ export class LandingPageComponent implements AfterViewInit {
       }
     );
   }  
-
-  getAllBerita() {
-    this.berita.getAllBerita().subscribe(
-      (beritas: any[]) => {
-        this.ngZone.run(() => {
-          this.beritas = beritas;
-        });
-      },
-      error => {
-        console.error('Error fetching Beritas:', error);
-      }
-    );
-  }
 
   getPartialBerita() {
     this.berita.getPartialBerita().subscribe(
