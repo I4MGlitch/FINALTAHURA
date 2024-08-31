@@ -7,8 +7,8 @@ import { Observable } from 'rxjs';
 })
 export class BeritaService {
 
-  private baseUrl = 'https://tahura.vercel.app';
-  // private baseUrl = 'http://localhost:4242';
+  //private baseUrl = 'https://tahura.vercel.app';
+  private baseUrl = 'http://localhost:4242';
 
   constructor(private http: HttpClient) {}
 
@@ -18,6 +18,10 @@ export class BeritaService {
   }
   getAllBerita(): Observable<any> {
     const url = `${this.baseUrl}/api/getAllBerita`;
+    return this.http.get<any>(url);
+  }
+  getPartialBerita(): Observable<any> {
+    const url = `${this.baseUrl}/api/getPartialBerita`;
     return this.http.get<any>(url);
   }
 }

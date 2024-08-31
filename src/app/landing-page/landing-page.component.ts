@@ -11,8 +11,11 @@ declare var Swiper: any;
 })
 export class LandingPageComponent implements AfterViewInit {
   public floras: any[] = [];
+  public floraspartial: any[] = [];
   public faunas: any[] = [];
+  public faunaspartial: any[] = [];
   public beritas: any[] = [];
+  public beritaspartial: any[] = [];
 
   constructor(
     private flora: FloraService,
@@ -23,9 +26,12 @@ export class LandingPageComponent implements AfterViewInit {
 
   ngOnInit(): void {
     this.ngZone.runOutsideAngular(() => {
-      this.getAllFlora();
-      this.getAllFauna();
-      this.getAllBerita();
+      // this.getAllFlora();
+      this.getPartialFlora();
+      // this.getAllFauna();
+      this.getPartialFauna();
+      //this.getAllBerita();
+      this.getPartialBerita();
     });
   }
 
@@ -173,6 +179,19 @@ export class LandingPageComponent implements AfterViewInit {
     );
   }
 
+  getPartialFlora() {
+    this.flora.getPartialFlora().subscribe(
+      (floras: any[]) => {
+        this.ngZone.run(() => {
+          this.floraspartial = floras;
+        });
+      },
+      error => {
+        console.error('Error fetching Floras:', error);
+      }
+    );
+  }
+
   getAllFauna() {
     this.fauna.getAllFauna().subscribe(
       (faunas: any[]) => {
@@ -186,11 +205,37 @@ export class LandingPageComponent implements AfterViewInit {
     );
   }
 
+  getPartialFauna() {
+    this.fauna.getPartialFauna().subscribe(
+      (faunas: any[]) => {
+        this.ngZone.run(() => {
+          this.faunaspartial = faunas;
+        });
+      },
+      error => {
+        console.error('Error fetching Faunas:', error);
+      }
+    );
+  }  
+
   getAllBerita() {
     this.berita.getAllBerita().subscribe(
       (beritas: any[]) => {
         this.ngZone.run(() => {
           this.beritas = beritas;
+        });
+      },
+      error => {
+        console.error('Error fetching Beritas:', error);
+      }
+    );
+  }
+
+  getPartialBerita() {
+    this.berita.getPartialBerita().subscribe(
+      (beritas: any[]) => {
+        this.ngZone.run(() => {
+          this.beritaspartial = beritas;
         });
       },
       error => {

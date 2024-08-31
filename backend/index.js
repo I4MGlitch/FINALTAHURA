@@ -27,7 +27,7 @@ app.use(parser.json());
 app.use(express.static(path.join(__dirname, '../public')));
 
 // MongoDB Connection using Mongoose
-mongoose.connect('mongodb+srv://mrxstylers:gonzo112233@tahura.ydoqsiv.mongodb.net/TAHURA')
+mongoose.connect('mongodb+srv://TAHURA:TAHURA123@tahura.cjtoycf.mongodb.net/TAHURA')
   .then(() => console.log('MongoDB connected to database: TAHURA'))
   .catch(err => console.error('MongoDB connection error:', err));
 
@@ -85,6 +85,23 @@ app.get('/api/getAllFlora', async (req, res) => {
   }
 });
 
+app.get('/api/getPartialFlora', async (req, res) => {
+  try {
+    // Fetch only 5 documents and select specific fields
+    const floraData = await flora.find({}, { 
+      name: 1, 
+      short_description: 1, 
+      nameIlmiah: 1, 
+      photos: { $slice: 1 }
+    }).limit(5);
+  
+    res.json(floraData);
+  } catch (error) {
+    console.error('Error fetching flora data:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+  
 app.get('/api/getAllFauna', async (req, res) => {
   try {
     const faunaData = await fauna.find();
@@ -95,6 +112,24 @@ app.get('/api/getAllFauna', async (req, res) => {
   }
 });
 
+app.get('/api/getPartialFauna', async (req, res) => {
+  try {
+    // Fetch only 5 documents and select specific fields
+    const faunaData = await fauna.find({}, { 
+      name: 1, 
+      short_description: 1, 
+      nameIlmiah: 1, 
+      photos: { $slice: 1 } // Fetch only the first photo
+    }).limit(5);
+
+    res.json(faunaData);
+  } catch (error) {
+    console.error('Error fetching fauna data:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+
 app.get('/api/getAllBerita', async (req, res) => {
   try {
     const beritaData = await berita.find();
@@ -104,6 +139,24 @@ app.get('/api/getAllBerita', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
+app.get('/api/getPartialBerita', async (req, res) => {
+  try {
+    // Fetch only 5 documents and select specific fields
+    const beritaData = await berita.find({}, {
+      title: 1,
+      short_description: 1,
+      date: 1,   
+      photos: { $slice: 1 }
+    }).limit(5);
+
+    res.json(beritaData);
+  } catch (error) {
+    console.error('Error fetching berita data:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 
 // Handle all other requests to serve the Angular frontend
 app.get('*', (req, res) => {

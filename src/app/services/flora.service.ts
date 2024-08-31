@@ -7,8 +7,8 @@ import { Observable } from 'rxjs';
 })
 export class FloraService {
 
-   private baseUrl = 'https://tahura.vercel.app';
-  // private baseUrl = 'http://localhost:4242';
+  //private baseUrl = 'https://tahura.vercel.app';
+  private baseUrl = 'http://localhost:4242';
 
   constructor(private http: HttpClient) {}
 
@@ -18,6 +18,10 @@ export class FloraService {
   }
   getAllFlora(): Observable<any> {
     const url = `${this.baseUrl}/api/getAllFlora`;
+    return this.http.get<any>(url);
+  }
+  getPartialFlora(): Observable<any> {
+    const url = `${this.baseUrl}/api/getPartialFlora`;
     return this.http.get<any>(url);
   }
 }

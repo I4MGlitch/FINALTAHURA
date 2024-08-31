@@ -7,8 +7,8 @@ import { Observable } from 'rxjs';
 })
 export class FaunaService {
 
-   private baseUrl = 'https://tahura.vercel.app';
-  // private baseUrl = 'http://localhost:4242';
+  //private baseUrl = 'https://tahura.vercel.app';
+  private baseUrl = 'http://localhost:4242';
 
   constructor(private http: HttpClient) {}
 
@@ -20,4 +20,8 @@ export class FaunaService {
     const url = `${this.baseUrl}/api/getAllFauna`;
     return this.http.get<any>(url);
   }
+  getPartialFauna(): Observable<any[]> {
+    const url = `${this.baseUrl}/api/getPartialFauna`;
+    return this.http.get<any[]>(url);
+  }  
 }
