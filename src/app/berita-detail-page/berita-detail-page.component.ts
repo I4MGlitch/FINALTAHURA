@@ -9,7 +9,7 @@ declare var Swiper: any;
   styleUrls: ['./berita-detail-page.component.css']
 })
 export class BeritaDetailPageComponent {
-  public beritas: any[] = [];
+  public beritaspartial: any[] = [];
   beritaId: string | null = null;
   beritaDetails: any;
   public loading: boolean = true;
@@ -50,7 +50,7 @@ export class BeritaDetailPageComponent {
     });
 
     this.ngZone.runOutsideAngular(() => {
-      this.getAllBerita();
+      this.getPartialBerita();
     });
   }
 
@@ -186,17 +186,15 @@ export class BeritaDetailPageComponent {
     });
   }
 
-  getAllBerita() {
-    this.berita.getAllBerita().subscribe(
+  getPartialBerita() {
+    this.berita.getPartialBerita().subscribe(
       (beritas: any[]) => {
         this.ngZone.run(() => {
-          this.beritas = beritas;
-          this.loading = false;
+          this.beritaspartial = beritas;
         });
       },
       error => {
         console.error('Error fetching Beritas:', error);
-        this.loading = false; 
       }
     );
   }

@@ -1,5 +1,6 @@
 import { Component, HostListener, NgZone } from '@angular/core';
 import { FloraService } from '../services/flora.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-flora-page',
@@ -16,13 +17,20 @@ export class FloraPageComponent {
 
   constructor(
     private floraService: FloraService,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
     this.ngZone.runOutsideAngular(() => {
       this.loadFloraData();
     });
+  }
+
+  onSearch() {
+    if (this.searchTerm) {
+      this.router.navigate(['/search'], { queryParams: { query: this.searchTerm } });
+    }
   }
 
   filteredFloras() {

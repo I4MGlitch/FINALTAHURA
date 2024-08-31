@@ -1,5 +1,6 @@
   import { Component, HostListener, NgZone } from '@angular/core';
   import { FaunaService } from '../services/fauna.service';
+  import { Router } from '@angular/router';
 
   @Component({
     selector: 'app-fauna-page',
@@ -16,13 +17,20 @@
 
     constructor(
       private fauna: FaunaService, 
-      private ngZone: NgZone
+      private ngZone: NgZone,
+      private router: Router
     ){ }
 
     ngOnInit(): void {
       this.ngZone.runOutsideAngular(() => {
         this.getLoadFauna();
       })
+    }
+  
+    onSearch() {
+      if (this.searchTerm) {
+        this.router.navigate(['/search'], { queryParams: { query: this.searchTerm } });
+      }
     }
 
     filteredFaunas() {

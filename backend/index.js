@@ -209,11 +209,34 @@ app.get('/api/getPartialBerita', async (req, res) => {
       short_description: 1,
       date: 1,   
       photos: { $slice: 1 }
-    }).limit(4);
+    }).limit(5);
 
     res.json(beritaData);
   } catch (error) {
     console.error('Error fetching berita data:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+app.get('/api/getLoadBeritas', async (req, res) => {
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 4;
+  const skip = (page - 1) * limit;
+
+  try {
+    const beritas = await berita.find()
+      .skip(skip)
+      .limit(limit);
+
+    const totalCount = await berita.countDocuments();
+
+    res.json({
+      beritas,
+      totalPages: Math.ceil(totalCount / limit),
+      currentPage: page,
+    });
+  } catch (error) {
+    console.error('Error fetching beritas:', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });

@@ -3,7 +3,10 @@
       <h1>FAUNA</h1>
       <!-- Search Bar -->
       <div class="search-bar mt-4 mb-4">
-          <input type="text" class="form-control" placeholder="Search fauna..." [(ngModel)]="searchTerm" />
+        <form class="d-flex ms-auto" (ngSubmit)="onSearch()">
+          <input class="form-control me-2" type="search" placeholder="Search Flora or Fauna" aria-label="Search" [(ngModel)]="searchTerm" name="searchTerm">
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
       </div>
       <div class="row" style="padding-bottom: 50vh;">
           <div *ngFor="let fauna of filteredFaunas()" class="col-md-4 col-6 mt-4">

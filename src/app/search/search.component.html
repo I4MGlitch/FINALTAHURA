@@ -4,7 +4,10 @@
 
   <!-- Search Bar -->
   <div class="search-bar mt-4 mb-4">
-    <input type="text" class="form-control" placeholder="Search Flora or Fauna..." [(ngModel)]="searchTerm" (input)="performSearch()" />
+    <form class="d-flex ms-auto" (ngSubmit)="onSearch()">
+      <input class="form-control me-2" type="search" placeholder="Search Flora or Fauna" aria-label="Search" [(ngModel)]="searchTerm" name="searchTerm">
+      <button class="btn btn-outline-success" type="submit">Search</button>
+    </form>
   </div>
 
   <div *ngIf="loading" class="spinner">

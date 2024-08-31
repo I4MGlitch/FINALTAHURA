@@ -9,12 +9,14 @@ declare var Swiper: any;
 })
 export class BeritaPageComponent {
   public beritas: any[] = [];
+  public beritaspartial: any[] = [];
   public beritasPopuler: any[] = [];
   public beritasTerkini: any[] = [];
   searchTerm: string = '';
   currentPage = 1;
   itemsPerPage = 2; // Adjusted to 2 for each section
   public loading: boolean = true;
+  totalItems: number = 20;
 
   constructor(
     private beritaService: BeritaService,
@@ -23,7 +25,8 @@ export class BeritaPageComponent {
 
   ngOnInit(): void {
     this.ngZone.runOutsideAngular(() => {
-      this.getAllBerita();
+      this.getLoadBeritas(this.currentPage);
+      this.getPartialBerita();
     });
   }
 
@@ -157,14 +160,28 @@ export class BeritaPageComponent {
       });
     });
   }
-
-  getAllBerita() {
-    this.beritaService.getAllBerita().subscribe(
+  
+  getPartialBerita() {
+    this.beritaService.getPartialBerita().subscribe(
       (beritas: any[]) => {
         this.ngZone.run(() => {
-          this.beritas = beritas;
-          this.loading = false;
+          this.beritaspartial = beritas;
+        });
+      },
+      error => {
+        console.error('Error fetching Beritas:', error);
+      }
+    );
+  }
+  
+  getLoadBeritas(page: number): void {
+    this.beritaService.getLoadBeritas(page, this.itemsPerPage).subscribe(
+      response => {
+        this.ngZone.run(() => {
+          this.beritas = response.beritas;
+          this.totalItems = 20; // Get the total number of items from the response
           this.populateBeritas();
+          this.loading = false;
         });
       },
       error => {
@@ -192,7 +209,7 @@ export class BeritaPageComponent {
   }
 
   get totalPages(): number {
-    return Math.ceil(this.beritas.length / this.itemsPerPage);
+    return Math.ceil(this.totalItems / this.itemsPerPage); // Calculate total pages based on total items
   }
 
   get totalPagesArray(): number[] {
@@ -201,23 +218,15 @@ export class BeritaPageComponent {
 
   setPage(pageNumber: number) {
     this.currentPage = pageNumber;
-    this.populateBeritas();
-  }
-
-  shouldShowBerita(index: number): boolean {
-    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-    const endIndex = startIndex + this.itemsPerPage - 1;
-    return index >= startIndex && index <= endIndex && index < this.beritas.length;
+    this.getLoadBeritas(this.currentPage);
   }
 
   populateBeritas() {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-
-
-    this.beritasPopuler = this.beritas.slice(startIndex, startIndex + this.itemsPerPage);
-
-    const terkiniStartIndex = Math.max(this.beritas.length - (this.currentPage * this.itemsPerPage), 0);
-
-    this.beritasTerkini = this.beritas.slice(terkiniStartIndex, terkiniStartIndex + this.itemsPerPage);
-  }
+    this.beritasPopuler = this.beritas.slice(0, 2); // Assuming you want the first 2 items as popular
+  
+    // For `beritasTerkini`, reverse the entire list of `beritas` and then slice the first 2 items
+    const reversedBeritas = [...this.beritas].reverse();
+    this.beritasTerkini = reversedBeritas.slice(0, 2);
+  }  
 }

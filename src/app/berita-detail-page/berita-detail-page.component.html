@@ -24,7 +24,7 @@
         <p class="text-start sub-title">Artikel Lain</p>
         <div class="swiper-container container2 mt-5">
             <div class="swiper-wrapper">
-                <div class="swiper-slide col-3" *ngFor="let berita of beritas">
+                <div class="swiper-slide col-3" *ngFor="let berita of beritaspartial">
                     <div class="card">
                         <img [src]="berita.photos.length > 0 ? getImageUrl(berita.photos[0]?.data) : getErrorImageUrl()"
                             class="artikel-lain" alt="{{ berita.title }} Image"

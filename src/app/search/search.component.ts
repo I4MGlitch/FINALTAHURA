@@ -1,6 +1,6 @@
 // src/app/search/search.component.ts
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FaunaService } from '../services/fauna.service';
 import { FloraService } from '../services/flora.service';
 
@@ -18,8 +18,15 @@ export class SearchComponent implements OnInit {
   constructor(
     private fauna: FaunaService,
     private flora: FloraService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {}
+
+  onSearch() {
+    if (this.searchTerm) {
+      this.router.navigate(['/search'], { queryParams: { query: this.searchTerm } });
+    }
+  }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
