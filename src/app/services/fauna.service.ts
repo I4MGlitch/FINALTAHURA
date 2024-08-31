@@ -30,4 +30,7 @@ export class FaunaService {
       .set('limit', limit.toString());
     return this.http.get<any[]>(`${this.baseUrl}/api/getLoadFauna`, { params })
   }
+  searchFauna(query: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/api/search/fauna`, { params: { query } });
+  }
 }

@@ -30,5 +30,7 @@ export class FloraService {
       .set('limit', limit.toString());
     return this.http.get<any[]>(`${this.baseUrl}/api/getLoadFlora`, { params })
   }
-  
+  searchFlora(query: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/api/search/flora`, { params: { query } });
+  }
 }

@@ -512,7 +512,6 @@ background: linear-gradient(0deg, rgba(0,0,0,0.8240546218487395) 0%, rgba(0,0,0,
     border: 0.25em solid currentColor;
     border-right-color: transparent;
     border-radius: 50%;
-    margin-left: 625px;
     animation: spinner-border 0.75s linear infinite;
   }
   

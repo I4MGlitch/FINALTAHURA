@@ -218,6 +218,39 @@ app.get('/api/getPartialBerita', async (req, res) => {
   }
 });
 
+// Search Flora
+app.get('/api/search/flora', async (req, res) => {
+  const query = req.query.query || '';
+  try {
+    const results = await flora.find({
+      $or: [
+        { name: new RegExp(query, 'i') },
+        { nameIlmiah: new RegExp(query, 'i') }
+      ]
+    });
+    res.json(results);
+  } catch (error) {
+    console.error('Error fetching Flora:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+// Search Fauna
+app.get('/api/search/fauna', async (req, res) => {
+  const query = req.query.query || '';
+  try {
+    const results = await fauna.find({
+      $or: [
+        { name: new RegExp(query, 'i') },
+        { nameIlmiah: new RegExp(query, 'i') }
+      ]
+    });
+    res.json(results);
+  } catch (error) {
+    console.error('Error fetching Fauna:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 
 // Handle all other requests to serve the Angular frontend
 app.get('*', (req, res) => {
