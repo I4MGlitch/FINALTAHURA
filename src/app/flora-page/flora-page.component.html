@@ -3,7 +3,10 @@
         <h1>FLORA</h1>
         <!-- Search Bar -->
         <div class="search-bar mt-4 mb-4">
-            <input type="text" class="form-control" placeholder="Search Flora..." [(ngModel)]="searchTerm" />
+            <form class="d-flex ms-auto" (ngSubmit)="onSearch()">
+                <input class="form-control me-2" type="search" placeholder="Search Flora or Fauna" aria-label="Search" [(ngModel)]="searchTerm" name="searchTerm">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+              </form>
         </div>
         <div class="row" style="padding-bottom: 50vh;">
             <div *ngFor="let flora of filteredFloras()" class="col-md-4 col-6 mt-4">
@@ -23,11 +26,11 @@
                     </div>
                 </div>
             </div>
-            <div *ngIf="isLoading" class="loading-indicator mt-4" style="margin-left: 625px;">
+            <div *ngIf="isLoading" class="loading-indicator d-flex justify-content-center align-items-center mt-4">
                 <div class="spinner-border" role="status">
-                    <span class="sr-only">Loading...</span>
+                  <span class="sr-only">Loading...</span>
                 </div>
-            </div>
+              </div>
         </div>
     </div>
 </div>

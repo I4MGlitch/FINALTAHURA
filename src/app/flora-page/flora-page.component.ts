@@ -66,7 +66,7 @@ export class FloraPageComponent {
 
   @HostListener('window:scroll', ['$event'])
   onScroll(event: any): void {
-    if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 30) { // Adjust threshold as needed
+    if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 50) { // Adjust threshold as needed
       this.loadFloraData();
     }
   }
