@@ -179,7 +179,7 @@ export class BeritaPageComponent {
       response => {
         this.ngZone.run(() => {
           this.beritas = response.beritas;
-          this.totalItems = 16; // Get the total number of items from the response
+          this.totalItems = 14; // Get the total number of items from the response
           this.populateBeritas();
           this.loading = false;
         });
