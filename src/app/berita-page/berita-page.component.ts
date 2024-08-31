@@ -16,7 +16,7 @@ export class BeritaPageComponent {
   currentPage = 1;
   itemsPerPage = 2; // Adjusted to 2 for each section
   public loading: boolean = true;
-  totalItems: number = 20;
+  totalItems: number = 16;
 
   constructor(
     private beritaService: BeritaService,
@@ -179,7 +179,7 @@ export class BeritaPageComponent {
       response => {
         this.ngZone.run(() => {
           this.beritas = response.beritas;
-          this.totalItems = 20; // Get the total number of items from the response
+          this.totalItems = 16; // Get the total number of items from the response
           this.populateBeritas();
           this.loading = false;
         });
