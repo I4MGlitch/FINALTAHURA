@@ -1,4 +1,4 @@
-import { Component, NgZone } from '@angular/core';
+import { Component, HostListener, NgZone } from '@angular/core';
 import { FloraService } from '../services/flora.service';
 
 @Component({
@@ -9,16 +9,19 @@ import { FloraService } from '../services/flora.service';
 export class FloraPageComponent {
   public floras: any[] = [];
   searchTerm: string = '';
-  public loading: boolean = true;
+  private page: number = 1;
+  private limit: number = 6;
+  public isLoading: boolean = false;
+  private hasMoreData: boolean = true;
 
   constructor(
-    private flora: FloraService,
+    private floraService: FloraService,
     private ngZone: NgZone
   ) { }
 
   ngOnInit(): void {
     this.ngZone.runOutsideAngular(() => {
-      this.getAllFlora();
+      this.loadFloraData();
     });
   }
 
@@ -32,21 +35,33 @@ export class FloraPageComponent {
     );
   }
 
-  getAllFlora() {
-    this.flora.getAllFlora().subscribe(
-      (floras: any[]) => {
-        this.ngZone.run(() => {
-          this.floras = floras;
-          this.loading = false;
-        });
+  loadFloraData(): void {
+    if (this.isLoading || !this.hasMoreData) return;
+
+    this.isLoading = true;
+    this.floraService.getLoadFlora(this.page, this.limit).subscribe(
+      data => {
+        if (data.length > 0) {
+          this.floras = [...this.floras, ...data];
+          this.page++;
+        } else {
+          this.hasMoreData = false;
+        }
+        this.isLoading = false;
       },
       error => {
-        console.error('Error fetching Floras:', error);
-        this.loading = false;
+        console.error('Error loading flora:', error);
+        this.isLoading = false;
       }
     );
   }
 
+  @HostListener('window:scroll', ['$event'])
+  onScroll(event: any): void {
+    if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 30) { // Adjust threshold as needed
+      this.loadFloraData();
+    }
+  }
 
   getErrorImageUrl(): string {
     return '../../assets/Images/logoTahura.png';
@@ -60,8 +75,8 @@ export class FloraPageComponent {
     return this.getErrorImageUrl();
   }
 
-  handleImageError(event: any, product: any) {
-    console.error('Image loading error', product, event);
-    product.errorImage = true;
+  handleImageError(event: any, flora: any) {
+    console.error('Image loading error', flora, event);
+    flora.errorImage = true;
   }
 }

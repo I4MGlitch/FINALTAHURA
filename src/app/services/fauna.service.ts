@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -23,5 +23,11 @@ export class FaunaService {
   getPartialFauna(): Observable<any[]> {
     const url = `${this.baseUrl}/api/getPartialFauna`;
     return this.http.get<any[]>(url);
-  }  
+  }
+  getLoadFauna(page: number, limit: number): Observable<any[]> {
+    const params = new HttpParams()
+      .set('page', page.toString())
+      .set('limit', limit.toString());
+    return this.http.get<any[]>(`${this.baseUrl}/api/getLoadFauna`, { params })
+  }
 }

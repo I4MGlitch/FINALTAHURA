@@ -1,6 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { catchError, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -24,4 +24,11 @@ export class FloraService {
     const url = `${this.baseUrl}/api/getPartialFlora`;
     return this.http.get<any>(url);
   }
+  getLoadFlora(page: number, limit: number): Observable<any[]> {
+    const params = new HttpParams()
+      .set('page', page.toString())
+      .set('limit', limit.toString());
+    return this.http.get<any[]>(`${this.baseUrl}/api/getLoadFlora`, { params })
+  }
+  
 }

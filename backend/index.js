@@ -101,7 +101,38 @@ app.get('/api/getPartialFlora', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
-  
+
+app.get('/api/getLoadFlora', async (req, res) => {
+  try {
+    // Get page and limit from query parameters
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 3;
+
+    // Validate and sanitize the page and limit values
+    if (page < 1) page = 1;
+    if (limit < 1) limit = 6;
+
+    // Calculate the number of documents to skip
+    const skip = (page - 1) * limit;
+
+    // Fetch the flora data with pagination and specific fields
+    const floraData = await flora.find({}, { 
+      name: 1, 
+      nameIlmiah: 1, 
+      short_description: 1, 
+      photos: { $slice: 1 } // Only include the first photo
+    })
+    .skip(skip)
+    .limit(limit)
+    .collation({ locale: 'en', strength: 1 }); // Optional: adjust collation for better performance
+
+    res.json(floraData);
+  } catch (error) {
+    console.error('Error fetching flora data:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 app.get('/api/getAllFauna', async (req, res) => {
   try {
     const faunaData = await fauna.find();
@@ -129,6 +160,36 @@ app.get('/api/getPartialFauna', async (req, res) => {
   }
 });
 
+app.get('/api/getLoadFauna', async (req, res) => {
+  try {
+    // Get page and limit from query parameters
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 3;
+
+    // Validate and sanitize the page and limit values
+    if (page < 1) page = 1;
+    if (limit < 1) limit = 6;
+
+    // Calculate the number of documents to skip
+    const skip = (page - 1) * limit;
+
+    // Fetch the fauna data with pagination and specific fields
+    const faunaData = await fauna.find({}, { 
+      name: 1, 
+      nameIlmiah: 1, 
+      short_description: 1, 
+      photos: { $slice: 1 } // Only include the first photo
+    })
+    .skip(skip)
+    .limit(limit)
+    .collation({ locale: 'en', strength: 1 }); // Optional: adjust collation for better performance
+
+    res.json(faunaData);
+  } catch (error) {
+    console.error('Error fetching fauna data:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 
 app.get('/api/getAllBerita', async (req, res) => {
   try {
