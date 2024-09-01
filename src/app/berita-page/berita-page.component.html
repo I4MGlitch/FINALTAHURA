@@ -17,10 +17,10 @@
                                 </div>
                                 <div class="col-xl-8 text-justify">
                                     <div class="card-body berita-card text-justify">
-                                        <h5 class="card-title berita-title">{{ berita.title }}</h5>
+                                        <h5 class="card-title berita-title-clamp">{{ berita.title }}</h5>
                                         <p class="card-text"><small class="text-body-secondary">{{ berita.date }}</small>
                                         </p>
-                                        <p class="card-text">{{ berita.short_description }}</p>
+                                        <p class="card-text berita-clamp clamp-hyphens">{{ berita.short_description }}</p>
                                         <div class="d-flex justify-content-end align-items-end">
                                             <a [routerLink]="'/beritaDetail-page/' + berita._id" class="btn btn-readmore">Read
                                                 More</a>
@@ -44,9 +44,9 @@
                                 class="terkini-image img-fluid" alt="{{ berita.title }} Image"
                                 (error)="handleImageError($event, berita)" />
                             <div class="card-body text-justify">
-                                <h5 class="card-title berita-title">{{ berita.title }}</h5>
+                                <h5 class="card-title berita-title-clamp">{{ berita.title }}</h5>
                                 <p class="card-text"><small class="text-body-secondary">{{ berita.date }}</small></p>
-                                <p class="card-text">{{ berita.short_description }}</p>
+                                <p class="card-text berita-clamp clamp-hyphens">{{ berita.short_description }}</p>
                                 <div class="d-flex justify-content-end align-items-end">
                                     <a [routerLink]="'/beritaDetail-page/' + berita._id" class="btn btn-readmore">Read More</a>
                                 </div>

@@ -13,6 +13,7 @@ export class HeaderComponent {
   constructor(private router: Router) {}
 
   onSearch() {
+    this.closeMenu();
     if (this.searchTerm) {
       this.router.navigate(['/search'], { queryParams: { query: this.searchTerm } });
     }
